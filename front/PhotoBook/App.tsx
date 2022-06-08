@@ -20,9 +20,11 @@ import {
   View,
 } from 'react-native';
 
-import HomeScreen from './src/HomeScreen';
-import SplashScreen from './src/SplashScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import SplashScreen from './src/screens/SplashScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import LoginScreen from './src/screens/LoginScreen';
+import { RootStackParamList } from './src/navigation';
 
 const Section: React.FC<{
   title: string;
@@ -38,7 +40,7 @@ const Section: React.FC<{
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const Stack = createNativeStackNavigator();
+  const Stack = createNativeStackNavigator<RootStackParamList>();
 
   console.log('setIsLoading : ', setIsLoading);
   console.log('isLoading : ', isLoading);
@@ -55,8 +57,9 @@ const App = () => {
       <StatusBar />
         {isLoading ? <SplashScreen/> : 
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
          </Stack.Navigator>
         </NavigationContainer>}
     </SafeAreaProvider>
