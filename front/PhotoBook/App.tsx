@@ -8,20 +8,21 @@
  * @format
  */
 
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import {
   SafeAreaView,
-  ScrollView,
   StatusBar,
-  StyleSheet,
-  Text,
   useColorScheme,
   View,
 } from 'react-native';
 
-import {
-  Colors
-} from 'react-native/Libraries/NewAppScreen';
+import HomeScreen from './src/HomeScreen';
+import SplashScreen from './src/SplashScreen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const Section: React.FC<{
   title: string;
@@ -36,34 +37,31 @@ const Section: React.FC<{
 };
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+  const [isLoading, setIsLoading] = useState(true);
+  const Stack = createNativeStackNavigator();
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  console.log('setIsLoading : ', setIsLoading);
+  console.log('isLoading : ', isLoading);
+
+  useEffect(() => {
+    setTimeout(() => 
+    {setIsLoading(false)}
+    , 2000)
+  }, [])
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <View
-          style={styles.mainContainer}>
-          <Text style={styles.grosTexte}>KOUKOU SOSO !</Text>
-        </View>
-    </SafeAreaView>
+    <SafeAreaProvider >
+      
+      <StatusBar />
+        {isLoading ? <SplashScreen/> : 
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Home" component={HomeScreen} />
+         </Stack.Navigator>
+        </NavigationContainer>}
+    </SafeAreaProvider>
   );
 };
 
-const styles = StyleSheet.create({
-  mainContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#003b6f',
-    height: '100%'
-  },
-  grosTexte: {
-    color: 'white',
-    fontSize: 40
-  }
-});
 
 export default App;
