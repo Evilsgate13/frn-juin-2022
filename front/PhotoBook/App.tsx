@@ -25,6 +25,8 @@ import SplashScreen from './src/screens/SplashScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import LoginScreen from './src/screens/LoginScreen';
 import { RootStackParamList } from './src/navigation';
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
 
 const Section: React.FC<{
   title: string;
@@ -39,6 +41,14 @@ const Section: React.FC<{
 };
 
 const App = () => {
+  return (
+    <Provider store={store}>
+      <ReduxApp />
+    </Provider>
+  );
+};
+
+const ReduxApp = () => {
   const [isLoading, setIsLoading] = useState(true);
   const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -53,7 +63,6 @@ const App = () => {
 
   return (
     <SafeAreaProvider >
-      
       <StatusBar />
         {isLoading ? <SplashScreen/> : 
         <NavigationContainer>

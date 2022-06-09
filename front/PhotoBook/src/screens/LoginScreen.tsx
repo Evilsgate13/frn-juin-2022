@@ -1,21 +1,40 @@
 import {  NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { RootStackParamList } from '../navigation';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { connect, selectAuthentication, User } from '../redux/slices/authentication.slice';
 
 type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
+
+
 const LoginScreen = ({navigation} : LoginProps) => { 
+  const authentication = useAppSelector(selectAuthentication);
+  const dispatch = useAppDispatch();
+  
+  const onPress = () => {
+    console.log('coucou');
+    const user : User = {displayName: 'leUser'}
+    dispatch(connect(user));
+    navigation.navigate('Home')
+    }
+
+  const [loginform, setLoginForm] = useState({
+    login: '',
+    password: ''
+  });
+  const [password, setPassword] = useState()
+
     return(
         <View style={styles.mainContainer}>
           <Text style={styles.grosTexte}>Faut se logguer!</Text>
-          <TextInput style={styles.lesLogins} placeholder="Login"  />
+          <Text>{JSON.stringify(loginform)}</Text>
+          <TextInput style={styles.lesLogins} placeholder="Login" 
+              onChangeText= {newLogin => setLoginForm({login : newLogin, password: loginform.password})} />
           <TextInput style={styles.lesLogins} placeholder="Password" secureTextEntry />
-          <Button title="Connect" onPress={() => 
-            {console.log('coucou petite Merluche'); 
-            navigation.navigate('Home');}
-            }
-            />
+          <Button title="Connect" onPress= {onPress}/>
+        
         </View>
     );
 };
