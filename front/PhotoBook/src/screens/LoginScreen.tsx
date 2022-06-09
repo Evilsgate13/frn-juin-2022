@@ -25,6 +25,7 @@ const LoginScreen = ({navigation} : LoginProps) => {
     password: ''
   });
   const [password, setPassword] = useState()
+  const [errorMsg, setErrorMsg] = useState()
 
     return(
         <View style={styles.mainContainer}>
@@ -33,6 +34,8 @@ const LoginScreen = ({navigation} : LoginProps) => {
           <TextInput style={styles.lesLogins} placeholder="Login" 
               onChangeText= {newLogin => setLoginForm({login : newLogin, password: loginform.password})} />
           <TextInput style={styles.lesLogins} placeholder="Password" secureTextEntry />
+          <Text style={styles.error}>{errorMsg}</Text>
+          
           <Button title="Connect" onPress= {onPress}/>
         
         </View>
@@ -59,5 +62,9 @@ const styles = StyleSheet.create({
     color : '#6A700B',
     height: 40
   },
+  error: {
+    color: 'red',
+    fontWeight: 'bold'
+  }
 });
 export default LoginScreen;
