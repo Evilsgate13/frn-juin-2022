@@ -1,11 +1,36 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
+import { Image, StyleSheet, Text, View } from 'react-native';
+import WallScreen from './WallScreen';
+import SettingsScreen from './SettingsScreen';
+import LegalScreen from './LegalScreen';
+
+import { Icon } from "@rneui/themed";
+
+
+
+const Tab = createBottomTabNavigator()
 const HomeScreen = ( {name}: {name: string}) => { 
     return(
-        <View style={styles.mainContainer}>
-          <Text style={styles.grosTexte}>AU REVOIR {name} !</Text>
-        </View>
+          <Tab.Navigator>
+            <Tab.Screen name="Wall" component={WallScreen} options={{
+                    tabBarIcon: () => (<Icon
+                      name='devices'
+                      color='#003b6f'/>)
+                }}/>
+            <Tab.Screen name="Legal" component={LegalScreen} options={{
+                    tabBarIcon: () => (<Icon
+                      name='heartbeat'
+                      type='font-awesome'
+                      color='#003b6f'/>)
+                }}/>
+            <Tab.Screen name="Settings" component={SettingsScreen} options={{
+                    tabBarIcon: () => (<Icon
+                      name='g-translate'
+                      color='#003b6f'/>)
+                }}/>
+          </Tab.Navigator>
     );
 };
 const styles = StyleSheet.create({
@@ -18,6 +43,7 @@ const styles = StyleSheet.create({
   grosTexte: {
     color: 'white',
     fontSize: 40
-  }
+  },
+  
 });
 export default HomeScreen;
